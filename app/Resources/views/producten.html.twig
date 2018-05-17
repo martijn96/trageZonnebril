@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<h1>Klantenoverzicht</h1>
+	<ul> 
+	{% for product in producten %}
+			<li>
+
+			{{ product.naam }}, {{ product.inkoopprijs }}
+			<a href="{{ path('productwijzigen', {'id':product.id}) }}">Wijzigen</a>
+			<a href="{{ path('productverwijderen', {'id':product.id}) }}">Verwijderen</a>
+
+			</li>
+	{% endfor %}
+	<ul>
+{% endblock %}
+
