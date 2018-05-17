@@ -60,14 +60,7 @@ class DefaultController extends Controller
         return new Response($this->render('form.html.twig', array('form' => $form->createView())));
     }
 
-    /** 
-    * @Route ("/producten/alle", name="alleproducten")
-    */
-    public function alleProducten(Request $request){
-        $producten = $this->getDoctrine()->getRepository("AppBundle:Product")->findAll();
-        
-        return new Response($this->render('producten.html.twig', array('producten' => $producten)));
-    }
+
 
     /** 
     * @Route ("/product/verwijderen/{id} ", name="productverwijderen")
@@ -81,7 +74,29 @@ class DefaultController extends Controller
 
 
         return new Response($this->redirect($this->generateurl("alleproducten")));
+
     }
+
+    /**
+     * @Route ("/producten/alle", name="alleproducten")
+     */
+    public function alleProducten(Request $request){
+        $producten = $this->getDoctrine()->getRepository("AppBundle:Product")->findAll();
+
+        return new Response($this->render('producten.html.twig', array('producten' => $producten)));
+    }
+
+    //hieronder staat mijn code die ik heb gebruikt
+
+    /**
+     * @Route ("/goederen/ontvangen", name="ontvangengoederen")
+     */
+    public function ontvangenGoederen(Request $request){
+        $productbarcode = $this->getDoctrine()->getRepository("AppBundle:OntvangenGoederen")->findAll();
+
+        return new Response($this->render('ontvangengoederen.html.twig', array('ontvangengoederen' => $productbarcode)));
+    }
+
 
 
 }

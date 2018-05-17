@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Categorie
  *
- * @ORM\Table(name="Categorie")
+ * @ORM\Table(name="OntvangenGoederen")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategorieRepository")
  */
 class Categorie
@@ -63,12 +63,12 @@ class Categorie
     }
 
     /**
-     * Set naam
-     *
-     * @param string $naam
-     *
-     * @return Categorie
-     */
+ * Set naam
+ *
+ * @param string $naam
+ *
+ * @return Categorie
+ */
     public function setNaam($naam)
     {
         $this->naam = $naam;

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<h1>Ontvangen goederen in magazijn</h1>
+<h4>Barcode Ontvangst Datum Aantal Kwaliteit Omschrijving Leverancier</h4>
+
+	{% for ontvangen in ontvangengoederen %}
+			<li>
+
+		{{ ontvangen.productbarcode }} {{ ontvangen.datumontvangst }}  {{ ontvangen.aantal }}  {{ ontvangen.kwaliteit }}  {{ ontvangen.omschrijving }}  {{ ontvangen.leverancier }}
+
+			</li>
+	{% endfor %}
+{% endblock %}
+
