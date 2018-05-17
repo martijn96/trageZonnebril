@@ -6,11 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use AppBundle\Entity\Product;
-use AppBundle\Form\Type\ProductType;
-use AppBundle\Entity\Categorie;
-use AppBundle\Form\Type\CategorieType;
-
+use AppBundle\Entity\Goederenontvangst;
+use AppBundle\Form\Type\GoederenontvangstType;
 class DefaultController extends Controller
 {
     /**
@@ -25,63 +22,22 @@ class DefaultController extends Controller
     }
 
     /** 
-    * @Route ("/product/nieuw ", name="productnieuw")
+    * @Route ("/magazijn/nieuw", name="goederennieuw")
     */
-    public function nieuweProduct(Request $request){
-        $nieuweProduct = new Product();
-        $form = $this->createForm(ProductType::class, $nieuweProduct);
-
+    public function nieuweGoederen(Request $request){
+        $nieuweGoederen = new Goederenontvangst();
+        $form = $this->createForm(GoederenontvangstType::class, $nieuweGoederen);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($nieuweProduct);
+            $em->persist($nieuweGoederen);
             $em->flush();
-            return $this->redirect($this->generateurl("productnieuw"));
+            return $this->redirect($this->generateurl("goederennnieuw"));
         }
 
         return new Response($this->render('form.html.twig', array('form' => $form->createView())));
     }
 
-    /** 
-    * @Route ("/product/wijzig/{id} ", name="productwijzigen")
-    */
-    public function wijzigProduct(Request $request, $id){
-        $bestaandeProduct = $this->getDoctrine()->getRepository("AppBundle:Product")->find($id);
-        $form = $this->createForm(ProductType::class, $bestaandeProduct);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($bestaandeProduct);
-            $em->flush();
-            return $this->redirect($this->generateurl("productwijzigen", array("id" => $bestaandeProduct->getId())));
-        }
-
-        return new Response($this->render('form.html.twig', array('form' => $form->createView())));
-    }
-
-    /** 
-    * @Route ("/producten/alle", name="alleproducten")
-    */
-    public function alleProducten(Request $request){
-        $producten = $this->getDoctrine()->getRepository("AppBundle:Product")->findAll();
-        
-        return new Response($this->render('producten.html.twig', array('producten' => $producten)));
-    }
-
-    /** 
-    * @Route ("/product/verwijderen/{id} ", name="productverwijderen")
-    */
-    public function verwijderProduct(Request $request, $id){
-        $em = $this->getDoctrine()->getManager();
-        $bestaandeProduct = $em->getRepository("AppBundle:Product")->find($id);
-        $em->remove($bestaandeProduct);
-        $em->flush();
-
-
-
-        return new Response($this->redirect($this->generateurl("alleproducten")));
-    }
 
 
 }
