@@ -2,6 +2,7 @@
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -11,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
+
 //EntiteitType vervangen door b.v. KlantType
 class ProductType extends AbstractType
 {
@@ -18,21 +20,12 @@ class ProductType extends AbstractType
     {
 		//gebruiken wat je nodig hebt, de id hoeft er niet bij als deze auto increment is
         $builder
-            ->add('id', IntegerType::class) //naam is b.v. een attribuut of variabele van klant
-        ;
-        $builder
-            ->add('categorie', EntityType::class, array(
-            'class' => 'AppBundle:Categorie',
+            ->add('product_barcode', EntityType::class, array(
+            'class' => 'AppBundle:Product',
             'choice_label' => 'naam'))
-        ;
-        $builder
             ->add('naam', TextType::class) //naam is b.v. een attribuut of variabele van klant
-        ;
-        $builder
             ->add('merk', TextType::class) //naam is b.v. een attribuut of variabele van klant
-        ;
-        $builder
-            ->add('inkoopprijs', IntegerType::class) //naam is b.v. een attribuut of variabele van klant
+            ->add('inkoopprijs', MoneyType::class) //naam is b.v. een attribuut of variabele van klant
         ;
 		//zie
 		//http://symfony.com/doc/current/forms.html#built-in-field-types

@@ -12,90 +12,74 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Product
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", length=11, type="integer")
-     * @ORM\Id
-     *
-     */
-    private $id;
-
-    /**
-     * @var int
-     *
-     * @ORM\ManyToOne(targetEntity="Categorie", inversedBy="producten")
-     * @ORM\JoinColumn(name="categorie", referencedColumnName="id")
-     */
-    private $categorie;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="naam", type="string", length=100, nullable=true)
+     * @ORM\Column(name="barcode", type="integer", length=20, unique=true)
+     *
+     * * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $barcode;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="naam", type="string", length=100)
      */
     private $naam;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="merk", type="string", length=100, nullable=true)
+     * @ORM\Column(name="merk", type="string", length=50, nullable=true)
      */
     private $merk;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="producttype", type="integer", nullable=true)
+     */
+    private $producttype;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="inkoopprijs", type="decimal", precision=10, scale=0, nullable=true)
+     * @ORM\Column(name="inkoopprijs", type="decimal", precision=10, scale=2)
      */
     private $inkoopprijs;
 
     /**
-     * Set id
+     * @var string
      *
-     * @param string $id
+     * @ORM\Column(name="opmerking", type="string", length=255)
+     */
+    private $opmerking;
+
+    /**
+     * Set barcode
+     *
+     * @var string $barcode
      *
      * @return Product
      */
-    public function setId($id)
+    public function setBarcode($barcode)
     {
-        $this->id = $id;
+        $this->barcode = $barcode;
 
         return $this;
     }
 
     /**
-     * Get id
+     * Get barcode
      *
-     * @return int
+     * @return string
      */
-    public function getId()
+    public function getBarcode()
     {
-        return $this->id;
-    }
-
-    /**
-     * Set categorie
-     *
-     * @param integer $categorie
-     *
-     * @return Product
-     */
-    public function setCategorie($categorie)
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
-    /**
-     * Get categorie
-     *
-     * @return int
-     */
-    public function getCategorie()
-    {
-        return $this->categorie;
+        return $this->barcode;
     }
 
     /**
@@ -147,6 +131,30 @@ class Product
     }
 
     /**
+     * Set producttype
+     *
+     * @param integer $producttype
+     *
+     * @return Product
+     */
+    public function setProducttype($producttype)
+    {
+        $this->producttype = $producttype;
+
+        return $this;
+    }
+
+    /**
+     * Get producttype
+     *
+     * @return int
+     */
+    public function getProducttype()
+    {
+        return $this->producttype;
+    }
+
+    /**
      * Set inkoopprijs
      *
      * @param string $inkoopprijs
@@ -168,6 +176,30 @@ class Product
     public function getInkoopprijs()
     {
         return $this->inkoopprijs;
+    }
+
+    /**
+     * Set opmerking
+     *
+     * @param string $opmerking
+     *
+     * @return Product
+     */
+    public function setOpmerking($opmerking)
+    {
+        $this->opmerking = $opmerking;
+
+        return $this;
+    }
+
+    /**
+     * Get opmerking
+     *
+     * @return string
+     */
+    public function getOpmerking()
+    {
+        return $this->opmerking;
     }
 }
 

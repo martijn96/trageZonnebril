@@ -2,14 +2,17 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Bestelstatus;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Product;
 use AppBundle\Form\Type\ProductType;
-use AppBundle\Entity\Categorie;
-use AppBundle\Form\Type\CategorieType;
+use AppBundle\Entity\Bestelopdracht;
+use AppBundle\Form\Type\BestelopdrachtType;
+
+
 
 class DefaultController extends Controller
 {
@@ -24,12 +27,13 @@ class DefaultController extends Controller
         ]);
     }
 
-    /** 
-    * @Route ("/product/nieuw ", name="productnieuw")
-    */
+    /**
+ * @Route ("/product/nieuw ", name="productnieuw")
+ */
     public function nieuweProduct(Request $request){
         $nieuweProduct = new Product();
         $form = $this->createForm(ProductType::class, $nieuweProduct);
+        $form = $this->createForm(Bestelstatus::class, $nieuweProduct);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -42,10 +46,28 @@ class DefaultController extends Controller
         return new Response($this->render('form.html.twig', array('form' => $form->createView())));
     }
 
+    /**
+     * @Route ("/bestelopdracht/nieuw ", name="bestelopdrachtnieuw")
+     */
+    public function nieuweBestelopdracht(Request $request){
+        $nieuweBestelopdracht = new Bestelopdracht();
+        $form = $this->createForm(BestelopdrachtType::class, $nieuweBestelopdracht);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($nieuweBestelopdracht);
+            $em->flush();
+            return $this->redirect($this->generateurl("bestelopdrachtnieuw"));
+        }
+
+        return new Response($this->render('form.html.twig', array('form' => $form->createView())));
+    }
+
     /** 
-    * @Route ("/product/wijzig/{id} ", name="productwijzigen")
+    * @Route ("/bestelopdracht/wijzig/{id} ", name="bestelopdrachtwijzigen")
     */
-    public function wijzigProduct(Request $request, $id){
+    public function wijzigBestelopdracht(Request $request, $id){
         $bestaandeProduct = $this->getDoctrine()->getRepository("AppBundle:Product")->find($id);
         $form = $this->createForm(ProductType::class, $bestaandeProduct);
 
@@ -54,7 +76,7 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($bestaandeProduct);
             $em->flush();
-            return $this->redirect($this->generateurl("productwijzigen", array("id" => $bestaandeProduct->getId())));
+            return $this->redirect($this->generateurl("bestelopdrachtwijzigen", array("id" => $bestaandeProduct->getId())));
         }
 
         return new Response($this->render('form.html.twig', array('form' => $form->createView())));
@@ -69,18 +91,27 @@ class DefaultController extends Controller
         return new Response($this->render('producten.html.twig', array('producten' => $producten)));
     }
 
+    /**
+     * @Route ("/bestelopdracht/alle", name="allebesteldrachten")
+     */
+    public function alleBestellingen(Request $request){
+        $bestellingen = $this->getDoctrine()->getRepository("AppBundle:Bestelopdracht")->findAll();
+
+        return new Response($this->render('bestellingen.html.twig', array('bestellingen' => $bestellingen)));
+    }
+
     /** 
-    * @Route ("/product/verwijderen/{id} ", name="productverwijderen")
+    * @Route ("/bestelopdracht/verwijderen/{id} ", name="bestelopdrachtverwijderen")
     */
-    public function verwijderProduct(Request $request, $id){
+    public function verwijderBestelopdracht(Request $request, $id){
         $em = $this->getDoctrine()->getManager();
-        $bestaandeProduct = $em->getRepository("AppBundle:Product")->find($id);
-        $em->remove($bestaandeProduct);
+        $bestaandeBestelopdracht = $em->getRepository("AppBundle:Bestelopdracht")->find($id);
+        $em->remove($bestaandeBestelopdracht);
         $em->flush();
 
 
 
-        return new Response($this->redirect($this->generateurl("alleproducten")));
+        return new Response($this->redirect($this->generateurl("allebesteldrachten")));
     }
 
 

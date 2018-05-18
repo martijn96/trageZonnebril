@@ -1,16 +1,24 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-	<h1>Klantenoverzicht</h1>
-	<ul> 
-	{% for product in producten %}
-			<li>
+	<h1>Productenoverzicht</h1>
+		<table>
+			<tr>
+				<td>Product</td>
+				<td>Prijs</td>
+			</tr>
 
-			{{ product.naam }}, {{ product.inkoopprijs }}
-			<a href="{{ path('productwijzigen', {'id':product.id}) }}">Wijzigen</a>
-			<a href="{{ path('productverwijderen', {'id':product.id}) }}">Verwijderen</a>
+			{% for product in producten %}
+				<tr>
+					<td>{{ product.naam }}</td>
+					<td>{{ product.inkoopprijs }}</td>
+					<td><a href="{{ path('bestelopdrachtwijzigen', {'id':product.barcode}) }}">Wijzigen</a></td>
+					<td><a href="{{ path('bestelopdrachtwijzigen', {'id':product.barcode}) }}">Verwijderen</a></td>
+				</tr>
+			{% endfor %}
+		</table>
 
-			</li>
-	{% endfor %}
-	<ul>
+    <a href="{{ path('bestelopdrachtnieuw') }}">Nieuwe bestelopdracht</a>
+	<a href="{{ path('allebesteldrachten') }}">Alle bestelopdracht</a>
+
 {% endblock %}
 
